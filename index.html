@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How AI Actually Works — A Tour Through the Stack</title>
+  <meta name="description" content="An interactive scroll-driven journey through every layer that makes modern AI possible — from electrons on a power grid to the words on your screen." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Fixed background canvas where Three.js renders -->
+  <canvas id="scene"></canvas>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+
+  <!-- Persistent UI -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">how&nbsp;ai&nbsp;works</span>
+    </div>
+    <nav class="nav">
+      <a href="#energy">01 Energy</a>
+      <a href="#chips">02 Chips</a>
+      <a href="#datacenter">03 Datacenter</a>
+      <a href="#data">04 Data</a>
+      <a href="#model">05 Model</a>
+      <a href="#training">06 Training</a>
+      <a href="#inference">07 Inference</a>
+      <a href="#apps">08 Apps</a>
+    </nav>
+  </header>
+
+  <!-- Progress rail -->
+  <aside class="rail">
+    <div class="rail-track"><div class="rail-fill" id="railFill"></div></div>
+    <div class="rail-label" id="railLabel">prologue</div>
+    <div class="rail-pct" id="railPct">0%</div>
+  </aside>
+
+  <!-- Scroll-driven content -->
+  <main>
+
+    <!-- =========================================================== -->
+    <!-- PROLOGUE -->
+    <!-- =========================================================== -->
+    <section class="panel hero" data-step="0" data-label="prologue">
+      <div class="hero-inner">
+        <p class="eyebrow">a scroll-driven field guide</p>
+        <h1 class="title">
+          How AI<br/>
+          <span class="accent">actually</span> works.
+        </h1>
+        <p class="lede">
+          Every answer from an AI travels through eight invisible layers — from
+          electrons on a power grid, to silicon the width of a virus, to a trillion
+          numbers in a model, to the words on your screen. Scroll, and we'll
+          peel them apart one by one.
+        </p>
+        <div class="hero-meta">
+          <div><span class="k">8</span><span class="v">layers</span></div>
+          <div><span class="k">~10 min</span><span class="v">read</span></div>
+          <div><span class="k">scroll</span><span class="v">to begin ↓</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- 01 — ENERGY -->
+    <!-- =========================================================== -->
+    <section class="panel" id="energy" data-step="1" data-label="01 · energy">
+      <div class="card left">
+        <div class="num">01</div>
+        <h2>It starts with electricity.</h2>
+        <p class="dek">
+          Before any "intelligence" exists, there is just power. Coal, gas, nuclear,
+          solar, hydro — all converted into a steady river of electrons flowing into
+          a building the size of a shopping mall.
+        </p>
+        <div class="grid2">
+          <div class="stat">
+            <div class="stat-num">~3 Wh</div>
+            <div class="stat-lbl">a single ChatGPT-style query — roughly 10× a Google search.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">~50 GWh</div>
+            <div class="stat-lbl">estimated electricity to train GPT-4 — enough to power ~5,000 US homes for a year.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">1–2%</div>
+            <div class="stat-lbl">of global electricity is consumed by data centers today. Some forecasts put AI alone at 8–12% of US power by 2030.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">700 W</div>
+            <div class="stat-lbl">one NVIDIA H100 GPU running flat-out. A modern AI cluster has tens of thousands of them.</div>
+          </div>
+        </div>
+        <p class="footnote">
+          Why does it matter? Because everything above this layer — chips, models, your chatbot — is a way
+          of converting raw electricity into useful computation. The cheaper and cleaner the watts, the
+          cheaper and faster the AI.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- 02 — CHIPS -->
+    <!-- =========================================================== -->
+    <section class="panel" id="chips" data-step="2" data-label="02 · chips">
+      <div class="card right">
+        <div class="num">02</div>
+        <h2>The electricity moves transistors.</h2>
+        <p class="dek">
+          That power is fed into specialized chips called <em>GPUs</em> (graphics processing units) and
+          <em>TPUs</em>. They were originally designed to render video games, but they turned out to be
+          shockingly good at the math behind neural networks: multiplying enormous grids of numbers in
+          parallel.
+        </p>
+        <div class="grid2">
+          <div class="stat">
+            <div class="stat-num">80 B</div>
+            <div class="stat-lbl">transistors on a single NVIDIA H100. Each is just a few atoms wide (4 nm process).</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">989 TFLOPS</div>
+            <div class="stat-lbl">peak throughput — that's ~989 trillion math operations every second. Per chip.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">~$30k</div>
+            <div class="stat-lbl">price tag of one H100. The newer B200 is roughly 2–3× faster.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">~90%</div>
+            <div class="stat-lbl">of the world's advanced AI chips are fabricated by a single company, TSMC, in Taiwan.</div>
+          </div>
+        </div>
+        <p class="footnote">
+          A modern AI chip is one of the most complex objects humans have ever manufactured. It is
+          assembled atom-by-atom using ultraviolet light bounced off mirrors polished to within a few
+          atoms of perfectly flat. There are only a handful of factories on Earth that can do it.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- 03 — DATACENTER -->
+    <!-- =========================================================== -->
+    <section class="panel" id="datacenter" data-step="3" data-label="03 · datacenter">
+      <div class="card left">
+        <div class="num">03</div>
+        <h2>Thousands of chips, wired into one brain.</h2>
+        <p class="dek">
+          A single chip isn't enough. To train and serve a frontier model, you bolt tens of thousands of
+          them into racks, then connect those racks with absurdly fast networking so they can act as
+          one giant machine. This is what an "AI supercomputer" actually is: a building.
+        </p>
+        <div class="grid2">
+          <div class="stat">
+            <div class="stat-num">8 GPUs</div>
+            <div class="stat-lbl">in one server (an "HGX" node). Eight of these chips alone cost ~$300,000.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">900 GB/s</div>
+            <div class="stat-lbl">NVLink bandwidth between GPUs inside a server — faster than your SSD by 1000×.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">100,000+</div>
+            <div class="stat-lbl">GPUs in the largest single training clusters (e.g. xAI's Colossus, Microsoft × OpenAI).</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">100 MW</div>
+            <div class="stat-lbl">power draw of a large AI campus — about the same as a small city. Cooled with water or immersion fluid.</div>
+          </div>
+        </div>
+        <p class="footnote">
+          When a model is training, every GPU in the building is constantly shipping its progress to
+          every other GPU. The interconnect — the wires between chips — is often the real bottleneck,
+          not the chips themselves. That's why these buildings look more like networking nightmares
+          than the server rooms of the cloud era.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- 04 — DATA -->
+    <!-- =========================================================== -->
+    <section class="panel" id="data" data-step="4" data-label="04 · data">
+      <div class="card right">
+        <div class="num">04</div>
+        <h2>You feed it the internet.</h2>
+        <p class="dek">
+          Hardware is the body. Data is the food. To train an LLM you collect a colossal text corpus —
+          a scrape of the public internet, books, code, scientific papers, forums — and chop it into
+          small pieces called <em>tokens</em> (roughly ¾ of a word each).
+        </p>
+        <div class="grid2">
+          <div class="stat">
+            <div class="stat-num">~13 T</div>
+            <div class="stat-lbl">tokens estimated for GPT-4's training set. Roughly 10 billion books worth of text.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">0.75 word</div>
+            <div class="stat-lbl">average length of a single token. "Unbelievable" might be 3 tokens.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">Common Crawl</div>
+            <div class="stat-lbl">a public web scrape (~250 billion pages) — the backbone of most LLM corpora.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">quality &gt; quantity</div>
+            <div class="stat-lbl">curating, deduplicating, and filtering the data matters more than sheer size.</div>
+          </div>
+        </div>
+        <p class="footnote">
+          The model never sees words. It sees integer IDs — one number per token. Every sentence you've
+          ever typed, every book ever written, gets compressed into a long stream of those integers
+          before the math even begins.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- 05 — THE MODEL -->
+    <!-- =========================================================== -->
+    <section class="panel" id="model" data-step="5" data-label="05 · model">
+      <div class="card left">
+        <div class="num">05</div>
+        <h2>The model is just a grid of numbers.</h2>
+        <p class="dek">
+          An LLM is, physically, a giant pile of floating-point numbers — its <em>parameters</em> or
+          <em>weights</em>. There is no "knowledge base", no database of facts inside. There is only
+          this grid. The architecture that connects those numbers is called a <em>transformer</em>.
+        </p>
+        <div class="grid2">
+          <div class="stat">
+            <div class="stat-num">~1.7 T</div>
+            <div class="stat-lbl">parameters estimated in GPT-4 (mixture-of-experts). Each parameter is a single number.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">attention</div>
+            <div class="stat-lbl">the core trick: every token looks at every other token, deciding what to pay attention to.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">embeddings</div>
+            <div class="stat-lbl">each token becomes a vector — a point in a high-dimensional space where meaning lives.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">layers</div>
+            <div class="stat-lbl">dozens or hundreds of stacked blocks, each refining the meaning a little more.</div>
+          </div>
+        </div>
+        <p class="footnote">
+          Picture the model as a sieve with a hundred floors. A sentence enters the top as raw tokens.
+          On each floor it gets remixed: tokens "talk" to each other, related ideas pull toward each
+          other in space, irrelevant ones fade. By the bottom floor, the model has a confident guess
+          about what comes next.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- 06 — TRAINING -->
+    <!-- =========================================================== -->
+    <section class="panel" id="training" data-step="6" data-label="06 · training">
+      <div class="card right">
+        <div class="num">06</div>
+        <h2>It learns by being wrong, trillions of times.</h2>
+        <p class="dek">
+          Training is brutally simple. Show the model a chunk of text with the last word hidden, let it
+          guess, then nudge every one of its parameters slightly in the direction that would've made
+          the guess better. Repeat. About a quadrillion times.
+        </p>
+        <div class="grid2">
+          <div class="stat">
+            <div class="stat-num">pretraining</div>
+            <div class="stat-lbl">"predict the next token." This is where the model absorbs the world.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">fine-tuning</div>
+            <div class="stat-lbl">teach it to follow instructions, answer politely, refuse harmful requests.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">RLHF</div>
+            <div class="stat-lbl">humans rank the model's answers. The model learns what humans actually prefer.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">3–6 months</div>
+            <div class="stat-lbl">wall-clock training time for a frontier model on a 25,000+ GPU cluster.</div>
+          </div>
+        </div>
+        <p class="footnote">
+          The astonishing part: no one programmed grammar, facts, or reasoning into the model. They
+          <em>emerged</em> as side effects of getting really good at one tiny task — guess the next
+          token — at a scale no human could ever practice.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- 07 — INFERENCE -->
+    <!-- =========================================================== -->
+    <section class="panel" id="inference" data-step="7" data-label="07 · inference">
+      <div class="card left">
+        <div class="num">07</div>
+        <h2>When you talk to it, it's just guessing the next word.</h2>
+        <p class="dek">
+          The frozen, finished model sits on a fleet of GPUs. You type a question. It gets tokenized,
+          run through every layer of the network, and the model spits out a probability distribution
+          over every possible next token. It picks one. Then it does the whole thing again. And again.
+          That's "inference."
+        </p>
+        <div class="grid2">
+          <div class="stat">
+            <div class="stat-num">one token</div>
+            <div class="stat-lbl">at a time. The model has no plan — it just keeps choosing the next word.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">temperature</div>
+            <div class="stat-lbl">a dial that controls randomness. Low = boring & deterministic, high = creative & weird.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">context window</div>
+            <div class="stat-lbl">how many tokens of memory it carries — 200k tokens ≈ a 500-page novel.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">streaming</div>
+            <div class="stat-lbl">the typewriter effect you see isn't a UI gimmick — that's the model producing tokens live.</div>
+          </div>
+        </div>
+        <p class="footnote">
+          So when an AI seems to "think before answering," what's really happening is more tokens
+          flowing — it's literally thinking out loud, one syllable at a time, and using its own
+          output as fresh input for the next guess.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- 08 — APPLICATIONS -->
+    <!-- =========================================================== -->
+    <section class="panel" id="apps" data-step="8" data-label="08 · apps">
+      <div class="card right">
+        <div class="num">08</div>
+        <h2>And finally — it reaches you.</h2>
+        <p class="dek">
+          On top of the model sits a thin layer of software: a chat UI, a coding assistant, an agent
+          that can browse the web or run code. This is the only part most people ever see — but it's
+          standing on every layer below it.
+        </p>
+        <div class="grid2">
+          <div class="stat">
+            <div class="stat-num">chat</div>
+            <div class="stat-lbl">ChatGPT, Claude, Gemini — the most familiar surface. ~1 billion+ users combined.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">coding</div>
+            <div class="stat-lbl">Cursor, Copilot, Claude Code — the model edits files and runs commands for you.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">agents</div>
+            <div class="stat-lbl">models that call tools, browse the web, book travel, write entire codebases.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">multimodal</div>
+            <div class="stat-lbl">the same trick — predict the next token — but tokens now include images, audio, video.</div>
+          </div>
+        </div>
+        <p class="footnote big">
+          Next time you type a message and a stream of words appears: remember that every one of those
+          words came from electrons → silicon → a datacenter → trillions of tokens → a trillion-parameter
+          model → an inference step → a network response → your screen.<br/><br/>
+          That's the stack. That's how AI actually works.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- EPILOGUE -->
+    <!-- =========================================================== -->
+    <section class="panel epilogue" data-step="9" data-label="the stack">
+      <div class="stack">
+        <div class="stack-row"><span>08</span><span>Applications</span><span>chat · agents · coding</span></div>
+        <div class="stack-row"><span>07</span><span>Inference</span><span>one token at a time</span></div>
+        <div class="stack-row"><span>06</span><span>Training</span><span>be wrong, adjust, repeat</span></div>
+        <div class="stack-row"><span>05</span><span>Model</span><span>a grid of numbers</span></div>
+        <div class="stack-row"><span>04</span><span>Data</span><span>the internet, tokenized</span></div>
+        <div class="stack-row"><span>03</span><span>Datacenter</span><span>thousands of chips, one brain</span></div>
+        <div class="stack-row"><span>02</span><span>Chips</span><span>silicon, atoms, lightspeed math</span></div>
+        <div class="stack-row"><span>01</span><span>Energy</span><span>electrons in a wire</span></div>
+        <div class="stack-floor">↑ scroll up to revisit any layer</div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
